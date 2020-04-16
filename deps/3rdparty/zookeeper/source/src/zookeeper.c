@@ -3440,7 +3440,7 @@ int zoo_add_auth(zhandle_t *zh,const char* scheme,const char* cert,
 
 static const char* format_endpoint_info(const struct sockaddr_storage* ep)
 {
-    static char buf[136];
+    static char buf[128];
     char addrstr[128];
     void *inaddr;
 #ifdef WIN32
@@ -3466,7 +3466,7 @@ static const char* format_endpoint_info(const struct sockaddr_storage* ep)
     sprintf(buf,"%s:%d",addrstring,ntohs(port));
 #else
     inet_ntop(ep->ss_family,inaddr,addrstr,sizeof(addrstr)-1);
-    sprintf(buf,"%s:%d",addrstr,ntohs(port));
+    snprintf(buf, sizeof(buf), "%s:%d",addrstr,ntohs(port));
 #endif    
     return buf;
 }
